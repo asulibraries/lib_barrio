@@ -1,0 +1,53 @@
+// Apply Unity list styles to all lists within the content
+// since we can't add uds-list class by default.
+
+// General UL rules.
+article ul {
+  @include uds-list-spacing;
+  @include uds-ul-list-styles;
+}
+
+// General OL rules.
+article ol {
+  // We manually manage the counter since we need to remove the trailing periods.
+
+  @include uds-list-spacing;
+  // Tweak the mix-in's left padding due to OL's needing more space for double
+  // and triple digits. Not supported: > 3 digits.
+  padding-left: $uds-size-spacing-6;
+
+  counter-reset: listcounter;
+
+  li ol {
+    padding: $uds-component-list-ol-styles-nested-ol-padding;
+  }
+
+  li:before {
+    line-height: $uds-component-list-ol-styles-li-before-line-height;
+    padding-right: $uds-component-list-ol-styles-li-before-padding-right;
+    margin-left: $uds-component-list-ol-styles-li-before-margin-left;
+  }
+
+  li:before,
+  ol ol li:before,
+  ol ol ol ol li:before {
+    content: counter(listcounter) ' ';
+    counter-increment: listcounter;
+  }
+
+  ol li:before,
+  ol ol ol li:before {
+    content: counter(listcounter, lower-alpha) ' ';
+    counter-increment: listcounter;
+  }
+
+  // Adjust indent for double digits.
+  li:nth-of-type(9) ~ li:before {
+    margin-left: $uds-component-list-ol-styles-li-nth-of-type-9-margin-left;
+  }
+  // Adjust indent for triple digits.
+  li:nth-of-type(99) ~ li:before {
+    margin-left: $uds-component-list-ol-styles-li-nth-of-type-99-margin-left;
+  }
+
+}

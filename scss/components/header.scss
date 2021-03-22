@@ -1,0 +1,5 @@
+
+/* Hide the Drupal contextual menu for ASU global menu since it covers the search button */
+.menu--asu-global .contextual {
+  display: none;
+}
